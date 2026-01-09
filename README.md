@@ -123,17 +123,38 @@ This structure will help in building scalable and maintainable Flutter applicati
 # Flutter Project Structure Exploration
 
 ## Overview
+
 This project explores the default folder structure of a Flutter application. The goal is to understand how Flutter organizes source code, platform-specific files, assets, and configuration files, and how this structure supports scalable and maintainable app development.
 
 ---
 
 ## What Was Explored
+
 In this assignment, a Flutter project was created and its complete directory structure was examined. Each core folder and configuration file was studied to understand its role in the application lifecycle.
 
 A detailed explanation of the project structure is documented in the file below:
 
 📄 **PROJECT_STRUCTURE.md**  
 This file explains:
+
 - The purpose of each major folder
 - How Flutter separates concerns
 - How the structure supports scalability and teamwork
+
+## SetUp
+
+**Project Title** Flutter Environment Setup and Verification
+
+**Overview** In this unit we setup up our pc so that we can continue building the flutter app.
+
+**Step Followed** First we installed the flutter sdk and setup it up on my system, later I downloaded android studio and installed the required emulator.
+
+**Screenshots**
+![Flutter App running](image-1.png)
+![Flutter doctor](image-2.png)
+
+**Reflection**
+
+Challenges I face was not able to properly configure the emulator
+
+This setup prepare me for Flutter app development by installed required packages and emulators to run the flutter app.
