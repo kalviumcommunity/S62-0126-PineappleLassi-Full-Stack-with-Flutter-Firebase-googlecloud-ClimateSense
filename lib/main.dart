@@ -1,3 +1,4 @@
+import 'package:climate_sense/screens/signin_screen.dart';
 import 'package:climate_sense/screens/welcome_page.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: WelcomeScreen());
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'Montserrat'),
+      home: WelcomeScreen(),
+    );
+    // return MaterialApp(home: SignInScreen());
   }
 }
