@@ -1,8 +1,14 @@
-import 'package:climate_sense/screens/welcome_page.dart';
+import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'core/config/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,6 +17,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: WelcomeScreen());
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'Montserrat'),
+      home: AuthWrapper(),
+    );
+    // return MaterialApp(home: SignInScreen());
   }
 }
