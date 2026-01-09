@@ -1,17 +1,22 @@
-import 'package:climate_sense/screens/signin_screen.dart';
+import 'package:climate_sense/common/widgets/bounding_dots.dart';
+import 'package:climate_sense/features/auth/data/auth_services.dart';
+import 'package:climate_sense/features/auth/logic/auth_provider.dart';
+import 'package:climate_sense/features/auth/presentation/signin_screen.dart';
 import 'package:climate_sense/widgets/google_login_button.dart';
 import 'package:climate_sense/widgets/text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen>
+class _RegisterScreenState extends ConsumerState<RegisterScreen>
     with TickerProviderStateMixin {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
@@ -31,11 +36,14 @@ class _RegisterScreenState extends State<RegisterScreen>
   late Animation<double> _emailShakeAnimation;
   late Animation<double> _passwordShakeAnimation;
   late Animation<double> _confirmPasswordShakeAnimation;
+  late final AuthService _authService;
 
   String? _nameError;
   String? _emailError;
   String? _passwordError;
   String? _confirmPasswordError;
+  String _errorMessage = "";
+  bool _isLoading = false;
 
   Animation<double> _buildShakeAnimation(AnimationController controller) {
     return TweenSequence<double>([
@@ -50,6 +58,8 @@ class _RegisterScreenState extends State<RegisterScreen>
   @override
   void initState() {
     super.initState();
+
+    _authService = ref.read(authServiceProvider);
 
     _nameShakeController = AnimationController(
       vsync: this,
@@ -90,6 +100,37 @@ class _RegisterScreenState extends State<RegisterScreen>
     _passwordShakeController.dispose();
     _confirmPasswordShakeController.dispose();
     super.dispose();
+  }
+
+  Future<void> register() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = "";
+    });
+
+    try {
+      await _authService.register(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+        displayName: _nameController.text.trim(),
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } on FirebaseAuthException catch (er) {
+      setState(() {
+        _errorMessage = er.message ?? "Unexpected error occurred";
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -142,6 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                         // Name TextField
                         FormFieldBox(
+                          enabled: !_isLoading,
                           placeholder: 'Enter Full Name',
                           textController: _nameController,
                           shakeAnimation: _nameShakeAnimation,
@@ -170,6 +212,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                         const SizedBox(height: 16),
 
                         FormFieldBox(
+                          enabled: !_isLoading,
                           placeholder: 'Enter Email',
                           textController: _emailController,
                           shakeAnimation: _emailShakeAnimation,
@@ -202,6 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                         // Password TextField
                         FormFieldBox(
+                          enabled: !_isLoading,
                           textController: _passwordController,
                           shakeAnimation: _passwordShakeAnimation,
                           fieldError: _passwordError,
@@ -238,6 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                         // Confirm Password TextField
                         FormFieldBox(
+                          enabled: !_isLoading,
                           textController: _confirmPasswordController,
                           shakeAnimation: _confirmPasswordShakeAnimation,
                           fieldError: _confirmPasswordError,
@@ -276,38 +321,33 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                         // Register Button
                         ElevatedButton(
-                          onPressed: () {
-                            // Register action
-                            final isValid = _formKey.currentState!.validate();
+                          onPressed: _isLoading
+                              ? null
+                              : () {
+                                  // Register action
+                                  final isValid = _formKey.currentState!
+                                      .validate();
 
-                            if (!isValid) {
-                              if (_nameError != null) {
-                                _nameShakeController.forward(from: 0);
-                              }
-                              if (_emailError != null) {
-                                _emailShakeController.forward(from: 0);
-                              }
-                              if (_passwordError != null) {
-                                _passwordShakeController.forward(from: 0);
-                              }
-                              if (_confirmPasswordError != null) {
-                                _confirmPasswordShakeController.forward(
-                                  from: 0,
-                                );
-                              }
-                              return;
-                            }
+                                  if (!isValid) {
+                                    if (_nameError != null) {
+                                      _nameShakeController.forward(from: 0);
+                                    }
+                                    if (_emailError != null) {
+                                      _emailShakeController.forward(from: 0);
+                                    }
+                                    if (_passwordError != null) {
+                                      _passwordShakeController.forward(from: 0);
+                                    }
+                                    if (_confirmPasswordError != null) {
+                                      _confirmPasswordShakeController.forward(
+                                        from: 0,
+                                      );
+                                    }
+                                    return;
+                                  }
 
-                            // ✅ All validations passed
-                            final name = _nameController.text.trim();
-                            final email = _emailController.text.trim();
-                            final password = _passwordController.text;
-
-                            // TODO: call register API
-                            print('Name: $name');
-                            print('Email: $email');
-                            print('Password: $password');
-                          },
+                                  register();
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.shade600,
                             foregroundColor: Colors.white,
@@ -317,12 +357,36 @@ class _RegisterScreenState extends State<RegisterScreen>
                             ),
                             elevation: 0,
                           ),
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: _isLoading
+                              ? Row(
+                                  key: const ValueKey("loading"),
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Text(
+                                      "Registering",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    BouncingDots(),
+                                  ],
+                                )
+                              : const Text(
+                                  'Register',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(height: 10),
+
+                        Center(
+                          child: Text(
+                            _errorMessage,
+                            style: TextStyle(color: Colors.red),
                           ),
                         ),
 
@@ -341,7 +405,19 @@ class _RegisterScreenState extends State<RegisterScreen>
                         const SizedBox(height: 20),
 
                         // Google Login Button
-                        GoogleLoginButton(),
+                        GoogleLoginButton(
+                          enabled: !_isLoading,
+                          setIsLoading: (isLoading) {
+                            setState(() {
+                              _isLoading = isLoading;
+                            });
+                          },
+                          setErrorMessage: (message) {
+                            setState(() {
+                              _errorMessage = message;
+                            });
+                          },
+                        ),
 
                         const SizedBox(height: 20),
 

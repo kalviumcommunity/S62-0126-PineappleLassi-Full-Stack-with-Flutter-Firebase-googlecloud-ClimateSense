@@ -1,17 +1,22 @@
-import 'package:climate_sense/screens/register_screen.dart';
+import 'package:climate_sense/common/widgets/bounding_dots.dart';
+import 'package:climate_sense/features/auth/data/auth_services.dart';
+import 'package:climate_sense/features/auth/logic/auth_provider.dart';
+import 'package:climate_sense/features/auth/presentation/register_screen.dart';
 import 'package:climate_sense/widgets/google_login_button.dart';
 import 'package:climate_sense/widgets/text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen>
+class _SignInScreenState extends ConsumerState<SignInScreen>
     with TickerProviderStateMixin {
   bool _isPasswordVisible = false;
   final TextEditingController _emailController = TextEditingController();
@@ -23,8 +28,12 @@ class _SignInScreenState extends State<SignInScreen>
   late Animation<double> _emailShakeAnimation;
   late Animation<double> _passwordShakeAnimation;
 
+  late final AuthService _authService;
+
   String? _emailError;
   String? _passwordError;
+  bool _isLoading = false;
+  String _errorMessage = "";
 
   Animation<double> _buildShakeAnimation(AnimationController controller) {
     return TweenSequence<double>([
@@ -39,6 +48,8 @@ class _SignInScreenState extends State<SignInScreen>
   @override
   void initState() {
     super.initState();
+
+    _authService = ref.read(authServiceProvider);
 
     _emailShakeController = AnimationController(
       vsync: this,
@@ -61,6 +72,36 @@ class _SignInScreenState extends State<SignInScreen>
     _emailShakeController.dispose();
     _passwordShakeController.dispose();
     super.dispose();
+  }
+
+  Future<void> signIn() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = "";
+    });
+
+    try {
+      await _authService.signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } on FirebaseAuthException catch (er) {
+      setState(() {
+        _errorMessage = er.message ?? "Unexpected error occurred";
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -141,6 +182,7 @@ class _SignInScreenState extends State<SignInScreen>
 
                         // Email TextField
                         FormFieldBox(
+                          enabled: !_isLoading,
                           textController: _emailController,
                           shakeAnimation: _emailShakeAnimation,
                           fieldError: _emailError,
@@ -172,12 +214,18 @@ class _SignInScreenState extends State<SignInScreen>
 
                         // Password TextField
                         FormFieldBox(
+                          enabled: !_isLoading,
                           textController: _passwordController,
                           shakeAnimation: _passwordShakeAnimation,
                           fieldError: _passwordError,
                           placeholder: "••••••••",
                           isPassword: true,
                           obscureText: !_isPasswordVisible,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
                           validationLogic: (value) {
                             if (value == null || value.isEmpty) {
                               setState(() {
@@ -210,13 +258,7 @@ class _SignInScreenState extends State<SignInScreen>
                               return;
                             }
 
-                            // ✅ All validations passed
-                            final email = _emailController.text.trim();
-                            final password = _passwordController.text;
-
-                            // TODO: call login API
-                            print('Email: $email');
-                            print('Password: $password');
+                            signIn();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.shade600,
@@ -227,12 +269,37 @@ class _SignInScreenState extends State<SignInScreen>
                             ),
                             elevation: 0,
                           ),
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: _isLoading
+                              ? Row(
+                                  key: const ValueKey("loading"),
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Text(
+                                      "Signing In",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    BouncingDots(),
+                                  ],
+                                )
+                              : const Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Center(
+                          child: Text(
+                            _errorMessage,
+                            style: TextStyle(color: Colors.red),
                           ),
                         ),
 
@@ -251,7 +318,19 @@ class _SignInScreenState extends State<SignInScreen>
                         const SizedBox(height: 20),
 
                         // Google Login Button
-                        GoogleLoginButton(),
+                        GoogleLoginButton(
+                          enabled: !_isLoading,
+                          setIsLoading: (isLoading) {
+                            setState(() {
+                              _isLoading = isLoading;
+                            });
+                          },
+                          setErrorMessage: (message) {
+                            setState(() {
+                              _errorMessage = message;
+                            });
+                          },
+                        ),
 
                         const SizedBox(height: 20),
 

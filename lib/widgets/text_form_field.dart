@@ -9,6 +9,7 @@ class FormFieldBox extends StatelessWidget {
   final bool isPassword;
   final bool obscureText;
   final VoidCallback? onToggleVisibility;
+  final bool enabled;
 
   const FormFieldBox({
     super.key,
@@ -20,6 +21,7 @@ class FormFieldBox extends StatelessWidget {
     this.isPassword = false,
     this.obscureText = false,
     this.onToggleVisibility,
+    required this.enabled,
   });
 
   @override
@@ -47,6 +49,7 @@ class FormFieldBox extends StatelessWidget {
               ],
             ),
             child: TextFormField(
+              enabled: enabled,
               controller: textController,
               obscureText: isPassword ? obscureText : false,
               style: const TextStyle(color: Colors.black),

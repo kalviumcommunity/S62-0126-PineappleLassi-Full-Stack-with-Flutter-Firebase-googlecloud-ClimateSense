@@ -1,5 +1,5 @@
-import "package:climate_sense/screens/register_screen.dart";
-import "package:climate_sense/screens/signin_screen.dart";
+import "package:climate_sense/features/auth/presentation/register_screen.dart";
+import "package:climate_sense/features/auth/presentation/signin_screen.dart";
 import "package:flutter/material.dart";
 
 class WelcomeScreen extends StatelessWidget {

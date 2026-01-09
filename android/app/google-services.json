@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "468971471664",
+    "project_id": "climatesense-5c212",
+    "storage_bucket": "climatesense-5c212.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468971471664:android:7fbb55c9cca5c06b6c3ef5",
+        "android_client_info": {
+          "package_name": "com.example.climate_sense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468971471664-mo1rmhf4eqiagllv77p927vgf0h6i5m2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.climate_sense",
+            "certificate_hash": "d180e71871f6b9f3e94089db01bb5360f37963d2"
+          }
+        },
+        {
+          "client_id": "468971471664-ju4f1thun0rvhb3irf5mih8q26sg1n7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZkdkysir0jQ105AG-lnMvel_HIdJ8oVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468971471664-ju4f1thun0rvhb3irf5mih8q26sg1n7t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "468971471664-b3kgge9a64f418uhskibhpvrguaufurj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.climateSense"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
