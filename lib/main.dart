@@ -1,3 +1,4 @@
+import 'package:climate_sense/features/auth/logic/auth_provider.dart';
 import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'core/config/firebase_options.dart';
@@ -8,7 +9,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const ProviderScope(child: MyApp()));
+  // 👇 Create Riverpod container manually
+  final container = ProviderContainer();
+
+  // 👇 Initialize Google Sign-In ONCE
+  await container.read(authServiceProvider).initGoogleSignIn();
+
+  runApp(UncontrolledProviderScope(container: container, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
