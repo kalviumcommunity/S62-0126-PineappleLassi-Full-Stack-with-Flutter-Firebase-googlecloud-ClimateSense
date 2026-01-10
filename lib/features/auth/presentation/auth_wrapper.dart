@@ -1,6 +1,6 @@
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
-import 'package:climate_sense/features/auth/presentation/welcome_page.dart';
 import 'package:climate_sense/features/dashboard/presentation/dashboard.dart';
+import 'package:climate_sense/features/welcome/presentation/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +22,7 @@ class AuthWrapper extends ConsumerWidget {
         if (user != null) {
           return const Dashboard();
         } else {
-          return pageIfNotConnected ?? const WelcomeScreen();
+          return pageIfNotConnected ?? const SplashPage();
         }
       },
     );

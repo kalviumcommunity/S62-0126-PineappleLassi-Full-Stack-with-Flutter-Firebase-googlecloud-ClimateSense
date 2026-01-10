@@ -2,8 +2,8 @@ import "package:climate_sense/features/auth/presentation/register_screen.dart";
 import "package:climate_sense/features/auth/presentation/signin_screen.dart";
 import "package:flutter/material.dart";
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
