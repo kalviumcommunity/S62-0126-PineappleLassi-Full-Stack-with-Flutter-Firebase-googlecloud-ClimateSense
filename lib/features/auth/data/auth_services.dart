@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _googleSignIn = GoogleSignIn.instance;
 
   User? get currentUser => firebaseAuth.currentUser;
 
@@ -33,29 +33,45 @@ class AuthService {
     return credential;
   }
 
+  Future<void> initGoogleSignIn() async {
+    await _googleSignIn.initialize();
+  }
+
   Future<UserCredential> signInWithGoogle() async {
     // 1️⃣ Trigger Google sign-in
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
-    if (googleUser == null) {
+    // 2️⃣ Obtain auth details
+    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+    final String? idToken = googleAuth.idToken;
+
+    if (idToken == null) {
       throw FirebaseAuthException(
-        code: 'ERROR_ABORTED_BY_USER',
-        message: 'Google sign-in aborted',
+        code: 'ERROR_MISSING_ID_TOKEN',
+        message: 'Google ID Token not found',
       );
     }
 
-    // 2️⃣ Obtain auth details
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    // 3️⃣ Create Firebase credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+    // 🔹 Create Firebase credential (NO accessToken)
+    final credential = GoogleAuthProvider.credential(idToken: idToken);
 
     // 4️⃣ Sign in to Firebase
     return await firebaseAuth.signInWithCredential(credential);
+  }
+
+  Future<UserCredential?> silentGoogleSignIn() async {
+    final future = _googleSignIn.attemptLightweightAuthentication();
+    if (future == null) return null;
+
+    final user = await future;
+    if (user == null) return null;
+
+    final idToken = user.authentication.idToken;
+    if (idToken == null) return null;
+
+    final credential = GoogleAuthProvider.credential(idToken: idToken);
+    return firebaseAuth.signInWithCredential(credential);
   }
 
   Future<void> signOut() async {
