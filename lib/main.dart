@@ -1,9 +1,10 @@
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
-import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
+// import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'core/config/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import './features/welcome/presentation/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Montserrat'),
-      home: AuthWrapper(),
+      home: SplashPage(),
     );
     // return MaterialApp(home: SignInScreen());
   }
