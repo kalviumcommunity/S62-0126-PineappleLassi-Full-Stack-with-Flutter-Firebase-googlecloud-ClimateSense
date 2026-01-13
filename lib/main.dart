@@ -1,10 +1,19 @@
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
-// import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
+import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'core/config/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import './features/welcome/presentation/splash_page.dart';
+import './features/welcome/presentation/onboarding_page.dart';
+
+import 'features/reports/presentation/community_reports_page.dart';
+import 'features/reports/presentation/report_issue_form.dart';
+import 'features/reports/presentation/report_preview_page.dart';
+import 'features/reports/presentation/report_success_page.dart';
+import 'features/dashboard/presentation/dashboard.dart';
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +37,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Montserrat'),
-      home: SplashPage(),
+      // Start with AuthWrapper
+      home: CommunityReportsPage(),
+
+      routes: {
+        '/onboarding': (context) => OnboardingPage(),
+        // '/dashboard': (context) => DashboardPage(),
+        '/community-reports': (context) => CommunityReportsPage(),
+        '/report-issue': (context) => ReportIssueFormPage(),
+        '/report-preview': (context) => ReportPreviewPage(),
+        '/report-success': (context) => ReportSuccessPage(),
+      },
     );
-    // return MaterialApp(home: SignInScreen());
   }
 }
