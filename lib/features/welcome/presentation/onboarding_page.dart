@@ -1,14 +1,16 @@
+import 'package:climate_sense/features/auth/logic/unauth_flow_provider.dart';
 import 'package:climate_sense/features/auth/presentation/auth_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OnboardingPage extends StatefulWidget {
+class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
+  ConsumerState<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -25,10 +27,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   void _skipOrFinish() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const AuthScreen()),
-    );
+    ref.read(unauthStepProvider.notifier).state = UnauthStep.auth;
   }
 
   void _nextPage() {

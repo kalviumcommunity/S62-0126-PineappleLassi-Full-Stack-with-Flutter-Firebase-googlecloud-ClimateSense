@@ -10,10 +10,6 @@ import 'features/reports/presentation/community_reports_page.dart';
 import 'features/reports/presentation/report_issue_form.dart';
 import 'features/reports/presentation/report_preview_page.dart';
 import 'features/reports/presentation/report_success_page.dart';
-import 'features/dashboard/presentation/dashboard.dart';
-
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,9 +32,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Montserrat'),
+      theme: ThemeData(
+        fontFamily: 'Montserrat',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(0xFFFF6B35),
+          primary: Color(0xFFFF6B35),
+        ),
+      ),
       // Start with AuthWrapper
-      home: CommunityReportsPage(),
+      home: AuthWrapper(),
 
       routes: {
         '/onboarding': (context) => OnboardingPage(),
