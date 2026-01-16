@@ -1,11 +1,13 @@
+import 'package:climate_sense/features/auth/logic/unauth_flow_provider.dart';
 import 'package:climate_sense/features/welcome/presentation/onboarding_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -147,12 +149,8 @@ class SplashPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           // Navigate to OnboardingPage
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const OnboardingPage(),
-                            ),
-                          );
+                          ref.read(unauthStepProvider.notifier).state =
+                              UnauthStep.onboarding;
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFFF6B35),

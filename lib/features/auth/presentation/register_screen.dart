@@ -1,6 +1,7 @@
 import 'package:climate_sense/common/widgets/bounding_dots.dart';
 import 'package:climate_sense/features/auth/data/auth_services.dart';
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
+import 'package:climate_sense/features/auth/logic/unauth_flow_provider.dart';
 import 'package:climate_sense/features/auth/presentation/signin_screen.dart';
 import 'package:climate_sense/widgets/google_login_button.dart';
 import 'package:climate_sense/widgets/text_form_field.dart';
@@ -439,13 +440,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignInScreen(),
-                                        ),
-                                      );
+                                      ref
+                                              .read(unauthStepProvider.notifier)
+                                              .state =
+                                          UnauthStep.signIn;
                                     },
                                 ),
                               ],

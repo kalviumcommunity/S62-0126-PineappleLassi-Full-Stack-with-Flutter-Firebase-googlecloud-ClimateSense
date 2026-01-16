@@ -1,6 +1,7 @@
 import 'package:climate_sense/common/widgets/bounding_dots.dart';
 import 'package:climate_sense/features/auth/data/auth_services.dart';
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
+import 'package:climate_sense/features/auth/logic/unauth_flow_provider.dart';
 import 'package:climate_sense/features/auth/presentation/register_screen.dart';
 import 'package:climate_sense/widgets/google_login_button.dart';
 import 'package:climate_sense/widgets/text_form_field.dart';
@@ -87,10 +88,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
     } on FirebaseAuthException catch (er) {
       setState(() {
         _errorMessage = er.message ?? "Unexpected error occurred";
@@ -352,13 +349,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RegisterScreen(),
-                                        ),
-                                      );
+                                      ref
+                                              .read(unauthStepProvider.notifier)
+                                              .state =
+                                          UnauthStep.register;
                                     },
                                 ),
                               ],
