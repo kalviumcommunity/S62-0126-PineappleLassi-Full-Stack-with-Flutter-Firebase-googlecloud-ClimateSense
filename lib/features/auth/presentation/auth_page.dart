@@ -13,7 +13,12 @@ class AuthScreen extends ConsumerWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.white, Colors.blue.shade50, Colors.purple.shade50],
+
+            colors: [
+              Colors.white,
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.06),
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+            ],
           ),
         ),
         child: Stack(
@@ -41,7 +46,7 @@ class AuthScreen extends ConsumerWidget {
                           UnauthStep.signIn;
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(68, 97, 242, 1),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                         vertical: 12,
@@ -69,7 +74,7 @@ class AuthScreen extends ConsumerWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: Color.fromRGBO(68, 97, 242, 1),
+                      foregroundColor: Theme.of(context).colorScheme.primary,
                       padding: const EdgeInsets.symmetric(
                         vertical: 12,
                         horizontal: 24,

@@ -1,10 +1,9 @@
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
 import 'package:climate_sense/features/auth/logic/unauth_flow_provider.dart';
 import 'package:climate_sense/features/auth/presentation/auth_page.dart';
+import 'package:climate_sense/features/auth/presentation/navigation_page.dart';
 import 'package:climate_sense/features/auth/presentation/register_screen.dart';
 import 'package:climate_sense/features/auth/presentation/signin_screen.dart';
-import 'package:climate_sense/features/dashboard/presentation/climate_dashboard_page.dart';
-import 'package:climate_sense/features/dashboard/presentation/demodashboard.dart';
 import 'package:climate_sense/features/welcome/presentation/splash_page.dart';
 import 'package:climate_sense/features/welcome/presentation/onboarding_page.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,8 @@ class AuthWrapper extends ConsumerWidget {
         if (user != null) {
           // 🔓 AUTHENTICATED
           // return const Demodashboard();
-          return const ClimateDashboardPage();
+          // return const ClimateDashboardPage();
+          return const NavigationPage();
         }
 
         // 🔐 UNAUTHENTICATED FLOW (STATE-BASED)

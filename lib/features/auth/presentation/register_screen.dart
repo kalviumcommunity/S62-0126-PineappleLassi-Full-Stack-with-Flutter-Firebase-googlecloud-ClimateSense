@@ -144,9 +144,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.grey.shade100,
-              Colors.blue.shade50,
-              Colors.purple.shade50,
+              Theme.of(context).colorScheme.surface,
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.06),
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
             ],
           ),
         ),
@@ -350,7 +350,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                   register();
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue.shade600,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 18),
                             shape: RoundedRectangleBorder(
@@ -435,7 +437,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                 TextSpan(
                                   text: 'SIGN IN',
                                   style: TextStyle(
-                                    color: Colors.blue.shade600,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   recognizer: TapGestureRecognizer()
