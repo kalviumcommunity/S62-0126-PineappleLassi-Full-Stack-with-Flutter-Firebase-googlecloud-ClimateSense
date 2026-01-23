@@ -1,0 +1,9 @@
+# ===== Python / FastAPI =====
+backend/fastapi_app/venv/
+backend/fastapi_app/__pycache__/
+*.pyc
+.env
+
+# ===== OS junk =====
+.DS_Store
+Thumbs.db
