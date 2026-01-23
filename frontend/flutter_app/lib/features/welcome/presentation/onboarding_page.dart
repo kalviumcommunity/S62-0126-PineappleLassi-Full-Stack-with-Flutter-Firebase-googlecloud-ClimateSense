@@ -59,7 +59,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     child: Text(
                       'Skip',
                       style: TextStyle(
-                        color: Color(0xFFFF6B35),
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -100,7 +100,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     title: 'Stay Informed, Stay Safe',
                     description:
                         'View hyperlocal climate risks, alerts, and insights powered by citizen reports and official data.',
-                    gradient: [Color(0xFFFF6B35), Color(0xFFFF8C42)],
+                    gradient: [
+                      Theme.of(context).colorScheme.primary,
+                      Color(0xFFFF8C42),
+                    ],
                     additionalIcons: [
                       Icons.warning_amber,
                       Icons.thermostat,
@@ -129,7 +132,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 child: ElevatedButton(
                   onPressed: _nextPage,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFF6B35),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -156,7 +159,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       height: 8,
       width: _currentPage == index ? 24 : 8,
       decoration: BoxDecoration(
-        color: _currentPage == index ? Color(0xFFFF6B35) : Colors.grey[300],
+        color: _currentPage == index
+            ? Theme.of(context).colorScheme.primary
+            : Colors.grey[300],
         borderRadius: BorderRadius.circular(4),
       ),
     );
