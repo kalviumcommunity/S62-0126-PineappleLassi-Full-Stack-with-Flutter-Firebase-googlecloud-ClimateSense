@@ -1,0 +1,40 @@
+app/
+│
+├── main.py                 # entry point
+│
+├── core/                   # core config & setup
+│   ├── config.py           # env variables
+│   ├── security.py         # auth helpers
+│   └── cache.py            # redis setup
+│
+├── api/
+│   ├── deps.py             # shared dependencies
+│   │
+│   ├── v1/                 # versioning
+│   │   ├── routers/
+│   │   │   ├── auth.py
+│   │   │   ├── dashboard.py
+│   │   │   └── forecast.py
+│   │   │
+│   │   └── api.py           # combine routers
+│
+├── schemas/                # Pydantic models
+│   ├── auth.py
+│   ├── dashboard.py
+│   └── forecast.py
+│
+├── services/               # business logic
+│   ├── auth_service.py
+│   ├── dashboard_service.py
+│   └── forecast_service.py
+│
+├── models/                 # DB models (if needed)
+│   └── user.py
+│
+├── db/
+│   ├── session.py
+│   └── base.py
+│
+└── utils/
+    ├── firebase.py
+    └── helpers.py

@@ -22,7 +22,10 @@ class SplashPage extends ConsumerWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Color(0xFFFF6B35), Color(0xFFFF8C42)],
+                    colors: [
+                      Theme.of(context).colorScheme.primary,
+                      Color(0xFFFF8C42),
+                    ],
                   ),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(32),
@@ -153,7 +156,9 @@ class SplashPage extends ConsumerWidget {
                               UnauthStep.onboarding;
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFFF6B35),
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
