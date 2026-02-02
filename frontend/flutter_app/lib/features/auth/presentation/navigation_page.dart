@@ -1,10 +1,16 @@
 import 'package:climate_sense/features/dashboard/presentation/climate_dashboard_page.dart';
 import 'package:climate_sense/features/reports/presentation/community_reports_page.dart';
+import 'package:climate_sense/features/map/presentation/map_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
 class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
+  final int initialIndex;
+
+  const NavigationPage({
+    super.key,
+    this.initialIndex = 0,
+  });
 
   @override
   State<NavigationPage> createState() => _HomePageState();
@@ -12,14 +18,21 @@ class NavigationPage extends StatefulWidget {
 
 class _HomePageState extends State<NavigationPage>
     with TickerProviderStateMixin {
-  int currentIndex = 0;
+  late int currentIndex;
   late final List<Widget> pages;
   late AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
-    pages = const [ClimateDashboardPage(), CommunityReportsPage()];
+
+    currentIndex = widget.initialIndex;
+
+    pages = const [
+      ClimateDashboardPage(),
+      MapsPage(),
+      CommunityReportsPage(),
+    ];
 
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -48,15 +61,15 @@ class _HomePageState extends State<NavigationPage>
       extendBody: true,
       body: Stack(
         children: [
-          // Main content with bottom padding to avoid navbar overlap
           Positioned.fill(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 90), // Space for navbar
-              child: IndexedStack(index: currentIndex, children: pages),
+              padding: const EdgeInsets.only(bottom: 90),
+              child: IndexedStack(
+                index: currentIndex,
+                children: pages,
+              ),
             ),
           ),
-
-          // Bottom Navigation Bar - Universal Design
           Positioned(
             left: 0,
             right: 0,
@@ -106,7 +119,6 @@ class _UniversalBottomNavBar extends StatelessWidget {
           child: Container(
             height: 70,
             decoration: BoxDecoration(
-              // Universal gradient that works on any background
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -149,10 +161,18 @@ class _UniversalBottomNavBar extends StatelessWidget {
                   isDark: isDark,
                 ),
                 _NavBarItem(
-                  icon: Icons.groups_rounded,
-                  label: 'Reports',
+                  icon: Icons.map_rounded,
+                  label: 'Maps',
                   isSelected: currentIndex == 1,
                   onTap: () => onTap(1),
+                  animationController: animationController,
+                  isDark: isDark,
+                ),
+                _NavBarItem(
+                  icon: Icons.groups_rounded,
+                  label: 'Reports',
+                  isSelected: currentIndex == 2,
+                  onTap: () => onTap(2),
                   animationController: animationController,
                   isDark: isDark,
                 ),
@@ -187,7 +207,6 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Define accent color for selected state
     final accentColor = Theme.of(context).colorScheme.primary;
     final textColor = isDark ? Colors.white : Colors.grey.shade800;
     final selectedBgColor = isDark
@@ -207,7 +226,6 @@ class _NavBarItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AnimatedBuilder(
@@ -231,8 +249,8 @@ class _NavBarItem extends StatelessWidget {
                 style: TextStyle(
                   color: isSelected ? accentColor : textColor,
                   fontSize: isSelected ? 11 : 10,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  overflow: TextOverflow.clip,
+                  fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.w400,
                 ),
                 child: Text(label, maxLines: 1),
               ),
@@ -243,26 +261,3 @@ class _NavBarItem extends StatelessWidget {
     );
   }
 }
-
-/*
-ICON OPTIONS:
-Dashboard alternatives:
-- Icons.dashboard_rounded ✓ (current)
-- Icons.home_rounded
-- Icons.analytics_rounded
-- Icons.speed_rounded
-- Icons.wb_sunny_rounded (weather theme)
-
-Reports alternatives:
-- Icons.groups_rounded ✓ (current)
-- Icons.people_rounded
-- Icons.report_problem_rounded
-- Icons.feedback_rounded
-- Icons.forum_rounded
-
-Additional tabs you might add:
-- Map: Icons.map_rounded
-- Alerts: Icons.notifications_rounded
-- Profile: Icons.person_rounded
-- Settings: Icons.settings_rounded
-*/

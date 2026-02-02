@@ -1,3 +1,6 @@
+import 'package:climate_sense/features/dashboard/presentation/climate_dashboard_page.dart';
+import 'package:climate_sense/features/reports/presentation/community_reports_page.dart';
+import 'package:climate_sense/features/auth/presentation/navigation_page.dart';
 import 'package:flutter/material.dart';
 
 class ReportSuccessPage extends StatefulWidget {
@@ -16,17 +19,24 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
   @override
   void initState() {
     super.initState();
+
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
 
     _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.elasticOut,
+      ),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Interval(0.0, 0.5, curve: Curves.easeIn)),
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
+      ),
     );
 
     _animationController.forward();
@@ -40,7 +50,8 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     final String? category = args?['category'];
     final String? location = args?['location'];
 
@@ -48,10 +59,12 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              Spacer(flex: 2),
+              const Spacer(flex: 2),
+
+              // SUCCESS ICON
               AnimatedBuilder(
                 animation: _animationController,
                 builder: (context, child) {
@@ -61,75 +74,110 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
                       width: 120,
                       height: 120,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [Color(0xFFFF6B35), Color(0xFFFF8C42)],
                         ),
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Color(0xFFFF6B35).withOpacity(0.3),
+                            color:
+                                const Color(0xFFFF6B35).withOpacity(0.3),
                             blurRadius: 20,
-                            offset: Offset(0, 10),
+                            offset: const Offset(0, 10),
                           ),
                         ],
                       ),
-                      child: Icon(Icons.check, size: 60, color: Colors.white),
+                      child: const Icon(
+                        Icons.check,
+                        size: 60,
+                        color: Colors.white,
+                      ),
                     ),
                   );
                 },
               ),
-              SizedBox(height: 32),
+
+              const SizedBox(height: 32),
+
+              // TITLE + SUBTITLE
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Column(
-                  children: [
+                  children: const [
                     Text(
                       'Report Submitted!',
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 16),
                     Text(
                       'Thank you for helping the community stay informed',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                      style:
+                          TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 40),
+
+              const SizedBox(height: 40),
+
+              // REPORT DETAILS
               if (category != null && location != null)
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.grey[50],
+                      color: Colors.grey.shade50,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey[200]!),
+                      border:
+                          Border.all(color: Colors.grey.shade200),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFF6B35).withOpacity(0.1),
+                            color: const Color(0xFFFF6B35)
+                                .withOpacity(0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Icon(Icons.info_outline, color: Color(0xFFFF6B35)),
+                          child: const Icon(
+                            Icons.info_outline,
+                            color: Color(0xFFFF6B35),
+                          ),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
                             children: [
-                              Text(category, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                              SizedBox(height: 4),
+                              Text(
+                                category,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
                               Row(
                                 children: [
-                                  Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
-                                  SizedBox(width: 4),
+                                  const Icon(
+                                    Icons.location_on,
+                                    size: 14,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(width: 4),
                                   Expanded(
-                                    child: Text(location, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+                                    child: Text(
+                                      location,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -140,32 +188,47 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
                     ),
                   ),
                 ),
-              SizedBox(height: 24),
+
+              const SizedBox(height: 24),
+
+              // IMPACT STATS
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFFFF6B35).withOpacity(0.1),
-                        Color(0xFFFF8C42).withOpacity(0.1),
+                        const Color(0xFFFF6B35).withOpacity(0.1),
+                        const Color(0xFFFF8C42).withOpacity(0.1),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Color(0xFFFF6B35).withOpacity(0.3)),
+                    border: Border.all(
+                      color:
+                          const Color(0xFFFF6B35).withOpacity(0.3),
+                    ),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceAround,
                     children: [
                       _buildImpactStat('125', 'People\nNotified'),
-                      Container(height: 40, width: 1, color: Color(0xFFFF6B35).withOpacity(0.3)),
+                      Container(
+                        height: 40,
+                        width: 1,
+                        color: const Color(0xFFFF6B35)
+                            .withOpacity(0.3),
+                      ),
                       _buildImpactStat('+10', 'Community\nPoints'),
                     ],
                   ),
                 ),
               ),
-              Spacer(flex: 3),
+
+              const Spacer(flex: 3),
+
+              // ACTION BUTTONS
               Column(
                 children: [
                   SizedBox(
@@ -173,29 +236,64 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context, '/community-reports', (route) => false);
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                NavigationPage(initialIndex: 2),
+                          ),
+                          (route) => false,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFF6B35),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        backgroundColor:
+                            const Color(0xFFFF6B35),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(16),
+                        ),
                       ),
-                      child: Text('View Reports Nearby', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                      child: const Text(
+                        'View Reports Nearby',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white, // ✅ FIX
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
                     height: 56,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context, '/dashboard', (route) => false);
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                NavigationPage(initialIndex: 0),
+                          ),
+                          (route) => false,
+                        );
                       },
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: Color(0xFFFF6B35),
-                        side: BorderSide(color: Color(0xFFFF6B35)),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        foregroundColor:
+                            const Color(0xFFFF6B35),
+                        side: const BorderSide(
+                          color: Color(0xFFFF6B35),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(16),
+                        ),
                       ),
-                      child: Text('Back to Home', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                      child: const Text(
+                        'Back to Home',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -210,9 +308,23 @@ class _ReportSuccessPageState extends State<ReportSuccessPage>
   Widget _buildImpactStat(String value, String label) {
     return Column(
       children: [
-        Text(value, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFFFF6B35))),
-        SizedBox(height: 4),
-        Text(label, textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFFFF6B35),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
       ],
     );
   }

@@ -19,10 +19,10 @@ class ReportPreviewPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
+        title: const Text(
           'Review Report',
           style: TextStyle(
             color: Colors.black87,
@@ -31,13 +31,13 @@ class ReportPreviewPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
               child: Column(
-                children: [
+                children: const [
                   Icon(Icons.preview, size: 60, color: Color(0xFFFF6B35)),
                   SizedBox(height: 12),
                   Text(
@@ -47,12 +47,12 @@ class ReportPreviewPage extends StatelessWidget {
                   SizedBox(height: 8),
                   Text(
                     'Please verify all details before submitting',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -61,15 +61,15 @@ class ReportPreviewPage extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.08),
                     blurRadius: 16,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [Color(0xFFFF6B35), Color(0xFFFF8C42)],
                       ),
@@ -84,9 +84,16 @@ class ReportPreviewPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Category', style: TextStyle(color: Colors.white70)),
-                            SizedBox(height: 4),
-                            Text(category, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                            const Text('Category', style: TextStyle(color: Colors.white70)),
+                            const SizedBox(height: 4),
+                            Text(
+                              category,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                           ],
                         ),
                         _buildSeverityBadge(severity.toInt()),
@@ -94,14 +101,14 @@ class ReportPreviewPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
                         _buildDetailRow(Icons.description, 'Description', description),
-                        Divider(height: 32),
+                        const Divider(height: 32),
                         _buildDetailRow(Icons.location_on, 'Location', location),
                         if (image != null) ...[
-                          Divider(height: 32),
+                          const Divider(height: 32),
                           _buildPhotoPreview(image),
                         ],
                       ],
@@ -110,9 +117,9 @@ class ReportPreviewPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.blue[50],
                 borderRadius: BorderRadius.circular(12),
@@ -121,32 +128,35 @@ class ReportPreviewPage extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(Icons.info_outline, color: Colors.blue[700]),
-                  SizedBox(width: 12),
-                  Expanded(
+                  const SizedBox(width: 12),
+                  const Expanded(
                     child: Text(
                       'Your report will be visible to the community and help others stay informed.',
-                      style: TextStyle(fontSize: 13, color: Colors.blue[900]),
+                      style: TextStyle(fontSize: 13, color: Colors.blue),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Color(0xFFFF6B35),
-                      side: BorderSide(color: Color(0xFFFF6B35), width: 2),
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      foregroundColor: const Color(0xFFFF6B35),
+                      side: const BorderSide(color: Color(0xFFFF6B35), width: 2),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     ),
-                    child: Text('Edit', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
@@ -158,14 +168,18 @@ class ReportPreviewPage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFF6B35),
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: const Color(0xFFFF6B35),
+                      foregroundColor: Colors.white, // ✅ FIX (TEXT + ICON)
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Submit Report', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      children: const [
+                        Text(
+                          'Submit Report',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
                         SizedBox(width: 8),
                         Icon(Icons.send, size: 18),
                       ],
@@ -185,21 +199,21 @@ class ReportPreviewPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Color(0xFFFF6B35).withOpacity(0.1),
+            color: const Color(0xFFFF6B35).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: Color(0xFFFF6B35), size: 20),
+          child: const Icon(Icons.description, color: Color(0xFFFF6B35), size: 20),
         ),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-              SizedBox(height: 4),
-              Text(value, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+              Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+              const SizedBox(height: 4),
+              Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -212,20 +226,13 @@ class ReportPreviewPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Color(0xFFFF6B35).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(Icons.photo, color: Color(0xFFFF6B35), size: 20),
-            ),
+          children: const [
+            Icon(Icons.photo, color: Color(0xFFFF6B35), size: 20),
             SizedBox(width: 12),
-            Text('Attached Photo', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+            Text('Attached Photo', style: TextStyle(fontSize: 12, color: Colors.grey)),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Image.file(image, height: 150, width: double.infinity, fit: BoxFit.cover),
@@ -235,20 +242,33 @@ class ReportPreviewPage extends StatelessWidget {
   }
 
   Widget _buildSeverityBadge(int severity) {
-    Color badgeColor = severity >= 4 ? Colors.red : severity >= 3 ? Colors.orange : Colors.green;
-    String label = severity >= 4 ? 'High' : severity >= 3 ? 'Medium' : 'Low';
+    Color badgeColor =
+        severity >= 4 ? Colors.red : severity >= 3 ? Colors.orange : Colors.green;
+    String label =
+        severity >= 4 ? 'High' : severity >= 3 ? 'Medium' : 'Low';
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          Container(width: 8, height: 8, decoration: BoxDecoration(color: badgeColor, shape: BoxShape.circle)),
-          SizedBox(width: 8),
-          Text(label, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(color: badgeColor, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: TextStyle(
+              color: badgeColor, // ✅ FIXED (was invisible)
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
