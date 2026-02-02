@@ -1,11 +1,37 @@
 import 'package:climate_sense/features/dashboard/presentation/widgets/glass_card.dart';
 import 'package:flutter/material.dart';
-import '../../data/climate_hour.dart';
+import '../../data/models/current_model.dart';
 
 class ReasonCard extends StatelessWidget {
-  final ClimateHour data;
+  final CurrentData data;
 
   const ReasonCard({super.key, required this.data});
+
+  String iconForType(String type) {
+    switch (type) {
+      case 'air_quality':
+        return '🌫️';
+      case 'temperature':
+        return '🌡️';
+      case 'humidity':
+        return '💧';
+      default:
+        return '⚠️';
+    }
+  }
+
+  String titleForType(String type) {
+    switch (type) {
+      case 'air_quality':
+        return 'Poor Air Quality';
+      case 'temperature':
+        return 'High Temperature';
+      case 'humidity':
+        return 'High Humidity';
+      default:
+        return 'Climate Factor';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +55,25 @@ class ReasonCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            _item(
-              '🌡️',
-              'High Temperature',
-              '${data.temp}°C',
-              'Current temperature is significantly above normal',
-            ),
             SizedBox(height: 12),
-            _item(
-              '🌫️',
-              'Poor Air Quality',
-              'AQI ${data.aqi}',
-              'Air quality is in the unhealthy range',
+
+            Column(
+              children: data.reasons.map((reason) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _item(
+                    iconForType(reason.type),
+                    titleForType(reason.type),
+                    '${reason.value}',
+                    reason.message, // 🔥 real backend message
+                  ),
+                );
+              }).toList(),
             ),
-            SizedBox(height: 12),
             _item(
               '🧑',
               'Citizen Reports',
-              '11 nearby',
+              '2 nearby',
               'Multiple users reported climate concerns',
             ),
           ],

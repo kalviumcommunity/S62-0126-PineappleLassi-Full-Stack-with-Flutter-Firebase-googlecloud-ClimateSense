@@ -1,6 +1,7 @@
 import 'package:climate_sense/features/auth/logic/auth_provider.dart';
 import 'package:climate_sense/features/auth/presentation/auth_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/config/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,8 @@ void main() async {
 
   // 👇 Initialize Google Sign-In ONCE
   await container.read(authServiceProvider).initGoogleSignIn();
+
+  await dotenv.load(fileName: ".env");
 
   runApp(UncontrolledProviderScope(container: container, child: const MyApp()));
 }

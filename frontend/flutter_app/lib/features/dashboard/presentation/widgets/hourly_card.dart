@@ -1,8 +1,10 @@
+import 'package:climate_sense/features/dashboard/data/models/timeline_model.dart';
 import 'package:climate_sense/features/dashboard/presentation/widgets/glass_card.dart';
 import 'package:flutter/material.dart';
 
 class HourlyCard extends StatelessWidget {
-  const HourlyCard({super.key});
+  final List<ClimateHour> data;
+  const HourlyCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +31,16 @@ class HourlyCard extends StatelessWidget {
             SizedBox(height: 16),
             _tableRow('Time', 'Temp', 'AQI', true),
             Divider(color: Colors.white24),
-            _tableRow('Now', '38°', '190', false),
-            _tableRow('3PM', '39°', '185', false),
-            _tableRow('6PM', '36°', '170', false),
-            _tableRow('9PM', '32°', '145', false),
+            Column(
+              children: data.map((hour) {
+                return _tableRow(
+                  hour.time,
+                  hour.temp.toString(),
+                  hour.aqi.toString(),
+                  false,
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),
