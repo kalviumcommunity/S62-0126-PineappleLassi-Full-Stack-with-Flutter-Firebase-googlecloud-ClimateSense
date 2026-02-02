@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from app.db.session import engine
 from app.db.base import Base
 import app.models  # noqa: F401
+from app.api.v1.api import api_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,6 +15,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Climate Sense API", lifespan=lifespan)
+
+app.include_router(api_router, prefix="/api/v1");
 
 @app.get("/")
 def root():

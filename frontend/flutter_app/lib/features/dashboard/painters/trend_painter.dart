@@ -167,12 +167,12 @@ class TrendPainter extends CustomPainter {
     // ============================================================================
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     for (int i = 0; i < points.length && i < days.length; i++) {
-      _drawText(
-        canvas,
-        days[i],
-        Offset(points[i].dx - 12, size.height - bottomPadding + 8),
-        TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 11),
-      );
+      // _drawText(
+      //   canvas,
+      //   days[i],
+      //   Offset(points[i].dx - 12, size.height - bottomPadding + 8),
+      //   TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 11),
+      // );
     }
   }
 

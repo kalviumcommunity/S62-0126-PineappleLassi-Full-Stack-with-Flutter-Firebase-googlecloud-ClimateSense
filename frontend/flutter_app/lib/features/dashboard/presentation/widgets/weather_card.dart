@@ -1,6 +1,6 @@
 import 'package:climate_sense/features/dashboard/presentation/widgets/glass_card.dart';
 import 'package:flutter/material.dart';
-import '../../data/climate_hour.dart';
+import '../../data/models/timeline_model.dart';
 
 class WeatherCard extends StatelessWidget {
   final ClimateHour data;
@@ -19,7 +19,17 @@ class WeatherCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(data.weatherIcon, color: Colors.white, size: 24),
+                    Image.network(
+                      data.icon,
+                      width: 24,
+                      height: 24,
+                      errorBuilder: (_, _, _) => const Icon(
+                        Icons.cloud,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+
                     SizedBox(width: 8),
                     Text(
                       'Current Weather',
@@ -44,7 +54,16 @@ class WeatherCard extends StatelessWidget {
                   flex: 2,
                   child: Column(
                     children: [
-                      Icon(data.weatherIcon, color: Colors.white, size: 80),
+                      Image.network(
+                        data.icon,
+                        width: 24,
+                        height: 24,
+                        errorBuilder: (_, _, _) => const Icon(
+                          Icons.cloud,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
                       SizedBox(height: 12),
                       Text(
                         '${data.temp}°C',

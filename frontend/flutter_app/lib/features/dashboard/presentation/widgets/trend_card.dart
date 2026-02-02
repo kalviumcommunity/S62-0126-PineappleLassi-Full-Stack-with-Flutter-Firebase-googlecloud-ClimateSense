@@ -3,7 +3,7 @@
 import 'package:climate_sense/features/dashboard/presentation/widgets/glass_card.dart';
 import 'package:flutter/material.dart';
 import '../../painters/trend_painter.dart';
-import '../../data/climate_hour.dart';
+import '../../data/models/timeline_model.dart';
 
 class TrendCard extends StatelessWidget {
   final List<ClimateHour> data;

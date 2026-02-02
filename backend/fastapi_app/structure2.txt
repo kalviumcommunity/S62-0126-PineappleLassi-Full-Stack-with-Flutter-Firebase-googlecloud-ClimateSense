@@ -1,0 +1,48 @@
+app/
+│
+├── main.py
+│
+├── core/
+│   ├── config.py
+│   ├── security.py
+│   ├── logging.py
+│
+├── api/
+│   ├── __init__.py
+│   ├── deps.py
+│   ├── v1/
+│   │   ├── __init__.py
+│   │   ├── api.py
+│   │   ├── routes/
+│   │   │   ├── auth.py
+│   │   │   ├── users.py
+│   │   │   ├── weather.py
+│
+├── models/
+│   ├── user.py
+│   ├── weather.py
+│
+├── schemas/
+│   ├── user.py
+│   ├── weather.py
+│   ├── common.py
+│
+├── services/
+│   ├── auth_service.py
+│   ├── user_service.py
+│   ├── weather_service.py
+│
+├── db/
+│   ├── session.py
+│   ├── base.py
+│   ├── migrations/
+│
+├── middlewares/
+│   ├── request_id.py
+│   ├── auth_middleware.py
+│
+├── utils/
+│   ├── location.py
+│   ├── time.py
+│
+└── tests/

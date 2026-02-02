@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/climate_hour.dart';
+import '../../data/models/timeline_model.dart';
 import '../../painters/interactive_wave_painter.dart';
 
 class InteractiveWave extends StatelessWidget {
@@ -7,6 +7,8 @@ class InteractiveWave extends StatelessWidget {
   final int selectedIndex;
   final Color color;
   final Function(int) onChanged;
+
+  static const int visiblePoints = 5;
 
   const InteractiveWave({
     super.key,
@@ -16,63 +18,89 @@ class InteractiveWave extends StatelessWidget {
     required this.onChanged,
   });
 
+  List<ClimateHour> _sampleData(List<ClimateHour> full) {
+    if (full.length <= visiblePoints) return full;
+
+    return List.generate(visiblePoints, (i) {
+      final index = ((full.length - 1) * i / (visiblePoints - 1)).round();
+      return full[index];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final spacedData = _sampleData(data);
+    final safeIndex = selectedIndex.clamp(0, spacedData.length - 1);
+
+    final width = MediaQuery.of(context).size.width - 40;
+    final slotWidth = width / (spacedData.length - 1);
+
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        final width = MediaQuery.of(context).size.width - 40;
-        final position = (details.localPosition.dx / width * (data.length - 1))
-            .clamp(0, data.length - 1);
-        final newIndex = position.round();
-        if (newIndex != selectedIndex) onChanged(newIndex);
+        final dx = details.localPosition.dx.clamp(0.0, width);
+        final newIndex = (dx / slotWidth).round().clamp(
+          0,
+          spacedData.length - 1,
+        );
+
+        if (newIndex != safeIndex) {
+          onChanged(newIndex);
+        }
       },
       child: Container(
-        height: 100,
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        height: 120,
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(
           children: [
+            /// 🌊 Wave
             CustomPaint(
-              size: Size(MediaQuery.of(context).size.width - 40, 100),
+              size: Size(width, 80),
               painter: InteractiveWavePainter(
-                data.map((e) => (e.stress).toDouble()).toList(),
-                selectedIndex,
+                spacedData.map((e) => e.stress.toDouble()).toList(),
+                safeIndex,
                 color,
               ),
             ),
+
+            /// 🕒 Labels
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: data.asMap().entries.map((entry) {
-                  final isSelected = entry.key == selectedIndex;
+                children: spacedData.asMap().entries.map((entry) {
+                  final isSelected = entry.key == safeIndex;
                   final isNow = entry.value.isNow == true;
-                  return Column(
-                    children: [
-                      Text(
-                        entry.value.time,
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          color: Colors.white.withOpacity(
-                            isSelected ? 1.0 : 0.5,
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: Column(
+                      children: [
+                        Text(
+                          entry.value.time,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: Colors.white.withOpacity(
+                              isSelected ? 1.0 : 0.5,
+                            ),
                           ),
                         ),
-                      ),
-                      if (isNow) SizedBox(height: 2),
-                      if (isNow)
-                        Container(
-                          width: 4,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+                        if (isNow) const SizedBox(height: 4),
+                        if (isNow)
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   );
                 }).toList(),
               ),
