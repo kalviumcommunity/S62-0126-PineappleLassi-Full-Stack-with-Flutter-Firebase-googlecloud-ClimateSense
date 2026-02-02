@@ -8,6 +8,9 @@
 	<string>Climate Sense</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your location to show climate conditions around you.</string>
+
 	 
 	<string>468971471664-b3kgge9a64f418uhskibhpvrguaufurj.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
