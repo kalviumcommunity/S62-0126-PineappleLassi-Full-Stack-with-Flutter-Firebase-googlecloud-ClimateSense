@@ -1,87 +1,108 @@
-ClimateSense
+# ClimateSense
 
-A full-stack mobile application that helps users understand environmental conditions, climate patterns, and sustainability insights in real time.
+A full‑stack mobile application that helps users understand
+environmental conditions, climate patterns, and sustainability insights
+in real time.
 
-ClimateSense combines mobile UI, backend intelligence, and cloud services to deliver meaningful environmental awareness and decision-making support.
+ClimateSense combines mobile UI, backend intelligence, and cloud
+services to deliver meaningful environmental awareness and
+decision‑making support.
 
-Overview
+------------------------------------------------------------------------
 
-ClimateSense is designed to make climate information simple and actionable.
-The app collects environmental data, processes it through a backend API, and presents insights to users through an intuitive mobile interface.
+## Overview
+
+ClimateSense is designed to make climate information simple and
+actionable.\
+The app collects environmental data, processes it through a backend API,
+and presents insights to users through an intuitive mobile interface.
 
 The system integrates:
 
-Mobile Frontend → Flutter
+-   Mobile Frontend → Flutter
+-   Backend API → FastAPI
+-   Database & Auth → Firebase
+-   Cloud Services → Google Cloud
 
-Backend API → FastAPI
+Users can view environmental conditions, analyze patterns, and become
+more aware of their surroundings.
 
-Database & Auth → Firebase
+------------------------------------------------------------------------
 
-Cloud Services → Google Cloud
+## Features
 
-Users can view environmental conditions, analyze patterns, and become more aware of their surroundings.
+-   Real‑time environmental data visualization
+-   User authentication
+-   Cloud‑based data storage
+-   Backend prediction & processing
+-   Mobile‑first UI/UX
+-   Scalable architecture
 
-Features
+------------------------------------------------------------------------
 
-Real-time environmental data visualization
+## Tech Stack
 
-User authentication
+### Frontend
 
-Cloud-based data storage
+-   Flutter
+-   Dart
 
-Backend prediction & processing
+### Backend
 
-Mobile-first UI/UX
+-   FastAPI (Python)
 
-Scalable architecture
+### Database & Authentication
 
-Tech Stack
-Frontend
+-   Firebase Firestore
+-   Firebase Authentication
 
-Flutter
+### Cloud
 
-Dart
+-   Google Cloud Platform
 
-Backend
+------------------------------------------------------------------------
 
-FastAPI (Python)
+## Project Structure
 
-Database & Authentication
+    ClimateSense/
+    │
+    ├── frontend/flutter_app        → Mobile application (Flutter)
+    │
+    ├── backend/fastapi_app         → API & data processing (FastAPI)
+    │
+    ├── pubspec.lock                → Flutter dependencies
+    │
+    └── .gitignore
 
-Firebase Firestore
+------------------------------------------------------------------------
 
-Firebase Authentication
+## Architecture Flow
 
-Cloud
+User → Flutter App → FastAPI Backend → Firebase/Google Cloud → Processed
+Data → Flutter UI
 
-Google Cloud Platform
+------------------------------------------------------------------------
 
-Project Structure
-ClimateSense/
-│
-├── frontend/flutter_app        → Mobile application (Flutter)
-│
-├── backend/fastapi_app         → API & data processing (FastAPI)
-│
-├── pubspec.lock                → Flutter dependencies
-│
-└── .gitignore
+## Installation & Setup
 
-Architecture Flow
+### 1. Clone the Repository
 
-User → Flutter App → FastAPI Backend → Firebase/Google Cloud → Processed Data → Flutter UI
-
-Installation & Setup
-1. Clone the Repository
+``` bash
 git clone https://github.com/kalviumcommunity/S62-0126-PineappleLassi-Full-Stack-with-Flutter-Firebase-googlecloud-ClimateSense.git
 cd S62-0126-PineappleLassi-Full-Stack-with-Flutter-Firebase-googlecloud-ClimateSense
+```
 
-2. Frontend Setup (Flutter)
+### 2. Frontend Setup (Flutter)
+
+``` bash
 cd frontend/flutter_app
 flutter pub get
 flutter run
+```
 
-3. Backend Setup (FastAPI)
+### 3. Backend Setup (FastAPI)
+
+``` bash
 cd backend/fastapi_app
 
 python -m venv venv
@@ -90,68 +111,62 @@ venv\Scripts\activate         # Windows
 
 pip install -r requirements.txt
 uvicorn main:app --reload
-
+```
 
 Backend will run at:
 
-http://127.0.0.1:8000
+    http://127.0.0.1:8000
 
-4. Firebase Configuration
+### 4. Firebase Configuration
 
-Create a Firebase project
+1.  Create a Firebase project
+2.  Enable Authentication
+3.  Enable Firestore Database
+4.  Download config file
+5.  Place it inside Flutter project
 
-Enable Authentication
+------------------------------------------------------------------------
 
-Enable Firestore Database
+## Usage
 
-Download config file
+1.  Run backend server
+2.  Run Flutter app
+3.  Login / Register
+4.  View climate insights & data
 
-Place it inside Flutter project
+------------------------------------------------------------------------
 
-Usage
-
-Run backend server
-
-Run Flutter app
-
-Login / Register
-
-View climate insights & data
-
-Learning Goals
+## Learning Goals
 
 This project demonstrates:
 
-Full-stack mobile architecture
+-   Full‑stack mobile architecture
+-   API communication
+-   Cloud integration
+-   Real‑time data handling
+-   Authentication & storage
+-   Production‑like project structure
 
-API communication
+------------------------------------------------------------------------
 
-Cloud integration
+## Future Improvements
 
-Real-time data handling
+-   AI‑based climate prediction
+-   Location‑based alerts
+-   Sustainability recommendations
+-   Push notifications
+-   Offline data caching
 
-Authentication & storage
+------------------------------------------------------------------------
 
-Production-like project structure
-
-Future Improvements
-
-AI-based climate prediction
-
-Location-based alerts
-
-Sustainability recommendations
-
-Push notifications
-
-Offline data caching
-
-Contributors
+## Contributors
 
 Nidhish
-Levi 
+Levi
 Paul
 
-License
+------------------------------------------------------------------------
+
+## License
 
 This project is developed for educational purposes.
